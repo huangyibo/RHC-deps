@@ -1,0 +1,11 @@
+prefix=/home/alchemist/install/arpack
+exec_prefix=${prefix}
+libdir=/home/alchemist/install/arpack/lib64
+
+Name: arpack
+Description: Collection of Fortran77 subroutines designed to solve large scale eigenvalue problems
+Version: 3.9.0
+URL: https://github.com/opencollab/arpack-ng/
+Requires.private: arpack
+Libs: -L${libdir} -lparpack
+Libs.private: -lopenblas -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lmpi

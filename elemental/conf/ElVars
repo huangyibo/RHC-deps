@@ -1,0 +1,30 @@
+# To help simplify including Elemental in external projects
+
+EL_INC = /home/alchemist/install/elemental/include
+EL_LIB = /home/alchemist/install/elemental/lib64
+
+CC = /opt/rh/devtoolset-7/root/usr/bin/cc
+CXX = /opt/rh/devtoolset-7/root/usr/bin/c++
+
+EL_LINK_FLAGS = -L${EL_LIB} -Wl,-rpath -Wl,/home/alchemist/install/openmpi/lib -Wl,--enable-new-dtags -pthread
+
+ALL_MATH_INC = -I${EL_INC} 
+ALL_MATH_LIBS = -lEl -lpmrrr -lElSuiteSparse -lpthread \
+                 /usr/lib/libopenblas.so /usr/lib/gcc/x86_64-redhat-linux/4.8.5/libgfortran.so -lpthread /usr/lib64/libm.so  /home/alchemist/install/elemental/lib/libparmetis.so /home/alchemist/install/elemental/lib/libmetis.so
+ALL_MPI_FLAGS =  -I/home/alchemist/install/openmpi/include 
+ifeq (,TRUE)
+  ALL_MATH_INC := ${ALL_MATH_INC}  -IQD_INCLUDES-NOTFOUND
+endif
+ifeq (,TRUE)
+  ALL_MATH_INC := ${ALL_MATH_INC} \
+       -IGMP_INCLUDES-NOTFOUND
+endif
+
+EL_COMPILE_FLAGS = -O3 -fcx-fortran-rules -std=gnu++14  ${ALL_MATH_INC} ${ALL_MPI_FLAGS}
+EL_LIBS = ${ALL_MATH_LIBS}  /home/alchemist/install/openmpi/lib/libmpi.so
+
+ifeq (FALSE,TRUE)
+  EL_COMPILE_FLAGS := ${EL_COMPILE_FLAGS} \
+      
+  EL_LIBS := ${EL_LIBS} -L -lQt5Widgets -lQt5Gui -lQt5Core
+endif
